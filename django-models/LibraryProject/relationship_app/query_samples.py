@@ -12,4 +12,4 @@ Author.objects.get(name=author_name)
 object.filter(author=author)
 
 
-object.filter(author=author)
+Book.objects.filter(author=author)
