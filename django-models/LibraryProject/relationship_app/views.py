@@ -5,8 +5,7 @@ from .models import Books, Librarian, Library
 from django.http import HttpResponse
 
 def list_books(request):
-    books = Books.objects.all()
-    return render(request, 'list_books.html', {'books': books})
+    return render(request, 'relationship_app/list_books.html', Books.objects.all())
 
 class library_DetailView():
     model = Library
