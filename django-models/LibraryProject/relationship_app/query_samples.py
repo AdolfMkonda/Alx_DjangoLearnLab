@@ -4,6 +4,6 @@ Book.objects.get(Book.all())
 
 Author.objects.get(id = 1)
 
-Library.objects.get(name = Library_name, Book.all())
+Library.objects.get("name = Library_name", "Book.all()")
 
 Librarian.objects.get(id = 1)
