@@ -13,3 +13,5 @@ object.filter(author=author)
 
 
 Book.objects.filter(author=author)
+
+Librarian.objects.get(library="")
