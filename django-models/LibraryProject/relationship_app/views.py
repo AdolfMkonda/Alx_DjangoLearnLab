@@ -22,7 +22,7 @@ class library_DetailView():
     context_object_name = 'library'
 
 
-def loginView(request):
+def LoginView(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -33,7 +33,7 @@ def loginView(request):
         form = AuthenticationForm()
     return render(request, 'relationship_app/login.html', {'form': form})
 
-def logoutView(request):
+def LogoutView(request):
     logout(request)
     return redirect('relationship_app:login')
 
