@@ -11,8 +11,9 @@ class Book(models.Model):
         return self.title
 
     class Meta:
-        Permission = ['can_view', 'can_edit', 'can_delete']
+        Permission = ['can_view', 'can_edit', 'can_delete',can_create]
         
+
 
 
 class CustomUser(AbstractUser):
