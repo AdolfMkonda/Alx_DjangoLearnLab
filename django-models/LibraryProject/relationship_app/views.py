@@ -46,3 +46,28 @@ def registerView(request):
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+def admin_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Admin':
+        return render(request, 'relationship_app/admin_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+   
+def librarian_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Librarian':
+        return render(request, 'relationship_app/librarian_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+
+def member_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Member':
+        return render(request, 'relationship_app/member_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+
+def user_passes_test(test_func):
+    raise NotImplementedError
+
+@user_passes_test(lambda u: u.is_authenticated and u.profile.role == 'Admin')
+def admin_only_view(request):
+    return render(request, 'relationship_app/admin_only_view.html')
