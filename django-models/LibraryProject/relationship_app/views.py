@@ -6,6 +6,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import permission_required
 
 
 
@@ -71,3 +72,15 @@ def user_passes_test(test_func):
 @user_passes_test(lambda u: u.is_authenticated and u.profile.role == 'Admin')
 def admin_only_view(request):
     return render(request, 'relationship_app/admin_only_view.html')
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book_view(request):
+    return render(request, 'relationship_app/add_book.html')
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'relationship_app/edit_book.html', {'book': book})
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
