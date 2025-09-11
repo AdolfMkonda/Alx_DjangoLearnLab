@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+import os
+
+def env(key, default=None):
+    val = os.environ.get(key, default)
+    if val is None:
+        raise ImproperlyConfigured(f"Missing required env var: {key}")
+    return val
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +31,37 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-v7x8z7)kwx5#rked!-3a6-k$drht@+1a@pba71d88hzplg+prd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
+# Session & CSRF cookies: only send over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
+# Mitigate some browser-based attacks
+SECURE_BROWSER_XSS_FILTER = True  # X-XSS-Protection header
+SECURE_CONTENT_TYPE_NOSNIFF = True  # X-Content-Type-Options: nosniff
+X_FRAME_OPTIONS = "DENY"  # Prevent clickjacking
+
+# HTTP Strict Transport Security (HSTS) - enable in production only when using HTTPS
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Redirect all HTTP to HTTPS (only if you're serving HTTPS)
+SECURE_SSL_REDIRECT = True
+
+# Recommended: set secure referrer policy (optional)
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+
+# CSRF trusted origins (set to your domain(s) when running behind HTTPS)
+# Example: os.environ['CSRF_TRUSTED_ORIGINS'] = 'https://yourdomain.com,https://www.yourdomain.com'
+csf_trusted = os.environ.get("CSRF_TRUSTED_ORIGINS")
+if csf_trusted:
+    CSRF_TRUSTED_ORIGINS = [s.strip() for s in csf_trusted.split(",")]
 
 # Application definition
 
@@ -49,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
