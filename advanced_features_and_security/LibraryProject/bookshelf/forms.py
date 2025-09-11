@@ -1,7 +1,7 @@
 # bookshelf/forms.py
 from django import forms
 
-class BookSearchForm(forms.Form):
+class ExampleForm(forms.Form):
     q = forms.CharField(
         label="Search",
         required=False,
