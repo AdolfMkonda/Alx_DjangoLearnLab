@@ -10,6 +10,11 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        Permission = ['can_view', 'can_edit', 'can_delete']
+        
+
+
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
