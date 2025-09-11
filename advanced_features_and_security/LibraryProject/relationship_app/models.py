@@ -59,7 +59,7 @@ class usermodel(models.Model):
         return self.username
 
 
-class custom_user(AbstractBaseUser):
+class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(null=True, blank=True)
