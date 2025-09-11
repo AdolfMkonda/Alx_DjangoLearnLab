@@ -1,0 +1,86 @@
+from django.shortcuts import render, redirect
+from .models import Book
+from .models import Library
+from django.views.generic.detail import DetailView
+
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import permission_required
+
+
+
+
+# Create your views here.
+from django.http import HttpResponse
+
+def list_books(request):
+    return render(request, 'relationship_app/list_books.html', Book.objects.all())
+
+class library_DetailView():
+    model = Library
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'
+
+
+def LoginView(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('relationship_app:list_books')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'relationship_app/login.html', {'form': form})
+
+def LogoutView(request):
+    logout(request)
+    return redirect('relationship_app:login')
+
+def registerView(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('relationship_app:login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
+
+def admin_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Admin':
+        return render(request, 'relationship_app/admin_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+   
+def librarian_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Librarian':
+        return render(request, 'relationship_app/librarian_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+
+def member_view(request):
+    if request.user.is_authenticated and request.user.profile.role == 'Member':
+        return render(request, 'relationship_app/member_view.html')
+    else:
+        return HttpResponse("You do not have permission to view this page.")
+
+def user_passes_test(test_func):
+    raise NotImplementedError
+
+@user_passes_test(lambda u: u.is_authenticated and u.profile.role == 'Admin')
+def admin_only_view(request):
+    return render(request, 'relationship_app/admin_only_view.html')
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book_view(request):
+    return render(request, 'relationship_app/add_book.html')
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'relationship_app/edit_book.html', {'book': book})
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book_view(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
