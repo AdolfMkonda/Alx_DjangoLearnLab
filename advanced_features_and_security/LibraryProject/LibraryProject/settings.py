@@ -56,6 +56,50 @@ SECURE_SSL_REDIRECT = True
 # Recommended: set secure referrer policy (optional)
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
+# Serve only via HTTPS in production
+SECURE_SSL_REDIRECT = True
+
+# HSTS (HTTP Strict Transport Security)
+# 31536000 = 1 year (recommended for production when you're sure HTTPS is correct)
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Content Security Policy (CSP) settings
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'cdnjs.cloudflare.com')
+CSP_STYLE_SRC = ("'self'", 'cdnjs.cloudflare.com')
+CSP_FONT_SRC = ("'self'", 'cdnjs.cloudflare.com')
+CSP_IMG_SRC = ("'self'", 'data:')
+CSP_CONNECT_SRC = ("'self'",)
+CSP_BASE_URI = ("'self'",)
+CSP_FRAME_ANCESTORS = ("'none'",)
+CSP_OBJECT_SRC = ("'none'",)
+CSP_FORM_ACTION = ("'self'",)
+CSP_REPORT_URI = '/csp-violation-report/'  # Optional: endpoint to receive violation reports
+CSP_REPORT_ONLY = False  # Set to True to only report violations without enforcing
+CSP_INCLUDE_NONCE_IN = ['script-src']  # Include nonce in script-src for inline scripts if needed
+CSP_NONCE_LENGTH = 32  # Length of the nonce if using nonces
+CSP_VIOLATION_REPORTS = True  # Enable reporting of CSP violations
+CSP_EXCLUDE_URL_PREFIXES = ['/admin/']  # Exclude admin URLs from CSP (if needed)
+CSP_EXCLUDE_URL_SUFFIXES = []  # Exclude specific URL suffixes from CSP (if needed)
+CSP_TRUSTED_ORIGINS = []  # Add trusted origins if needed
+
+# Cookies
+SESSION_COOKIE_SECURE = True   # only send session cookie over HTTPS
+CSRF_COOKIE_SECURE = True      # only send CSRF cookie over HTTPS
+
+# Additional protections
+X_FRAME_OPTIONS = 'DENY'       # prevent framing to mitigate clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # prevents MIME-type sniffing
+SECURE_BROWSER_XSS_FILTER = True    # enable browser's XSS filter (best-effort)
+
+# If using a reverse proxy (recommended), set to detect secure requests
+# Example: nginx sets header "X-Forwarded-Proto"
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
 
 # CSRF trusted origins (set to your domain(s) when running behind HTTPS)
 # Example: os.environ['CSRF_TRUSTED_ORIGINS'] = 'https://yourdomain.com,https://www.yourdomain.com'
@@ -85,6 +129,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
