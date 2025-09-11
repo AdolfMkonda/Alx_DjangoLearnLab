@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin View - Relationship App</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'relationship_app/styles.css' %}">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'relationship_app:author_list' %}">Authors</a></li>
+            <li><a href="{% url 'relationship_app:book_list' %}">Books</a></li>
+            <li><a href="{% url 'relationship_app:publisher_list' %}">Publishers</a></li>
+        </ul>
+    </nav>
+    <section>
+        {% block content %}
+        <!-- Admin content goes here -->
+        {% endblock %}
+    </section>
+</body>
+</html>

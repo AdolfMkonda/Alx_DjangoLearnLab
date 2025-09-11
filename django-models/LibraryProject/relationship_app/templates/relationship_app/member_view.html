@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Library Members</h1>
+    <ul>
+        {% for member in members %}
+            <li>
+                <strong>{{ member.name }}</strong> ({{ member.email }})<br>
+                Joined: {{ member.joined_date|date:"F j, Y" }}
+            </li>
+        {% empty %}
+            <li>No members found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
