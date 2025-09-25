@@ -14,6 +14,8 @@ router.register(r'books', DeleteView, basename='book-delete')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path( 'books/create', views.listView.as_view(), name='book-list' ),
+    path( 'books/update', views.listView.as_view(), name='book-list' ),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
 
