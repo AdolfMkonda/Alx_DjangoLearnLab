@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+USER = 'admin'
+PORT = '5432'
 
 # Application definition
 
