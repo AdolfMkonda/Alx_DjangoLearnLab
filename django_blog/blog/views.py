@@ -6,17 +6,17 @@ from .models import Post
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-class SignUpView:
+class register:
     def signup(request):
         if request.method == 'POST':
             form = UserCreationForm(request.POST)
             if form.is_valid():
                 form.save()
                 username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password1')
-                user = authenticate(username=username, password=password)
+                raw_password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=raw_password)
                 login(request, user)
-                return redirect('home')
+                return render(request, 'logged_in.html')
         else:
             form = UserCreationForm()
         return render(request, 'registration/signup.html', {'form': form})
