@@ -49,3 +49,14 @@ class ProfileForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('content',)  # Add other fields as necessary  
+    def save(self, commit=True):
+        comment = super().save(commit=False)
+        if commit:
+            comment.save()
+        return comment
+

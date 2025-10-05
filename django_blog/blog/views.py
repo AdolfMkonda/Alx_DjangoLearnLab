@@ -95,4 +95,43 @@ class DeleteView:
         post.delete()
         return redirect('post_list')
 
+class addcomment:
+    @login_required
+    def post_update(request, pk):
+        post = Post.objects.get(pk=pk)
+        if request.method == "POST":
+            form = PostForm(request.POST, instance=post)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.published_date = timezone.now()
+                post.save()
+                return redirect('post_detail', pk=post.pk)
+        else:
+            form = PostForm(instance=post)
+        return render(request, 'blog/add_comment_to_post.html', {'form': form})
+    
+class deletecomment:
+    @login_required
+    def post_create(request, pk):
+        post = Post.objects.get(pk=pk)
+        if request.method == "POST":
+            form = PostForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.post = post
+                comment.author = request.user
+                comment.created_at = timezone.now()
+                comment.save()
+                return redirect('post_detail', pk=post.pk)
+        else:
+            form = PostForm()
+        return render(request, 'blog/add_comment_to_post.html', {'form': form})
+    
+class editcomment:
+    @login_required
+    def profile(request):
+        return render(request, 'profile.html')  
+    
+
 
