@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from .forms import PostForm 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -95,7 +95,7 @@ class DeleteView:
         post.delete()
         return redirect('post_list')
 
-class addcomment:
+class CommentCreateView:
     @login_required
     def post_update(request, pk):
         post = Post.objects.get(pk=pk)
@@ -111,7 +111,7 @@ class addcomment:
             form = PostForm(instance=post)
         return render(request, 'blog/add_comment_to_post.html', {'form': form})
     
-class deletecomment:
+class CommentDeleteView:
     @login_required
     def post_create(request, pk):
         post = Post.objects.get(pk=pk)
@@ -128,7 +128,7 @@ class deletecomment:
             form = PostForm()
         return render(request, 'blog/add_comment_to_post.html', {'form': form})
     
-class editcomment:
+class CommentEditView:
     @login_required
     def profile(request):
         return render(request, 'profile.html')  
