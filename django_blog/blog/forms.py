@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post 
+from .models import Comment, Post
 from django.contrib.auth.models import User   
 
 class PostForm(forms.ModelForm):
@@ -52,7 +52,7 @@ class ProfileForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = Post
+        model = Comment
         fields = ('content',)  # Add other fields as necessary  
     def save(self, commit=True):
         comment = super().save(commit=False)
