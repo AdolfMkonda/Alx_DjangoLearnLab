@@ -12,4 +12,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('logged_in/', login_required(views.logged_in_view), name='logged_in'),
     path('profile/', include('django.contrib.auth.urls')),
+    path('profile/', views.profile, name='profile'),
+    path('posts/', views.post_list, name='post_list'),
+    path('posts/<int:pk>/', views.post_detail, name='post_detail'),
+    path('posts/new/', views.post_new, name='post_new'),
+    path('posts/<int:pk>/edit/', views.post_edit, name='post_edit'),
+    path('posts/<int:pk>/delete/', views.post_delete, name='post_delete'),
 ]
