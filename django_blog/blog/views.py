@@ -133,5 +133,17 @@ class CommentEditView:
     def profile(request):
         return render(request, 'profile.html')  
     
+class CommentUpdateView:
+    @login_required
+    def comment_list(request):
+        comments = Post.objects.all().order_by('-created_at')
+        return render(request, 'blog/comment_list.html', {'comments': comments})
+    
+class CommentDetailView:
+    @login_required
+    def comment_detail(request, pk):
+        comment = Post.objects.get(pk=pk)
+        return render(request, 'blog/comment_detail.html', {'comment': comment})
+
 
 
