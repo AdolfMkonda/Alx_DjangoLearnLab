@@ -30,4 +30,6 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', views.comment_delete, name='comment_delete'),
     path('comment/<int:pk>/update/', views.comment_update, name='comment_update'),
     path('comments/<int:pk>/new/', views.comment_create, name='comment_create'),
+    path('post/<int:pk>/comments/new/', views.comment_create, name='comment_create'), --- IGNORE --
+    
 ]
