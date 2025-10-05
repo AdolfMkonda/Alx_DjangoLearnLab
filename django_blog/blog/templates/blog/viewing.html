@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Post Viewing</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>By {{ post.author }} on {{ post.published_date }}</p>
+    <div>
+        {{ post.content|linebreaks }}
+    </div>
+    <a href="{% url 'blog:post_list' %}">Back to Blog List</a>
+</body>
+</html>
