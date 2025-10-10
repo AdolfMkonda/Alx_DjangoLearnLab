@@ -20,3 +20,7 @@ class profileViewSet(viewsets.ModelViewSet):
     queryset = user.objects.all()
     serializer_class = UserSerializer
 
+class userViewSet(viewsets.ModelViewSet):
+    queryset = user.objects.all()
+    serializer_class = UserSerializer
+    

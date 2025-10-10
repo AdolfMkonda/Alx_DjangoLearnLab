@@ -14,3 +14,11 @@ class registerViewSet(viewsets.ModelViewSet):
     queryset = user.objects.all()
     serializer_class = UserSerializer
 
+class profileViewSet(viewsets.ModelViewSet):
+    queryset = user.objects.all()
+    serializer_class = UserSerializer
+
+class modelViewSet(viewsets.ModelViewSet):
+    queryset = user.objects.all()
+    serializer_class = UserSerializer
+
