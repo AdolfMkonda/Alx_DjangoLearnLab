@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 
+
+
 # Create your models here.
 class user(AbstractUser):
     bio = models.TextField(blank=True, null=True)

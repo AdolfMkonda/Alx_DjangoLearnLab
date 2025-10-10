@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import user
 from .serializers import UserSerializer
+from rest_framework.authtoken.models import Token
 
 
 class modelViewSet(viewsets.ModelViewSet):
@@ -23,4 +24,3 @@ class profileViewSet(viewsets.ModelViewSet):
 class userViewSet(viewsets.ModelViewSet):
     queryset = user.objects.all()
     serializer_class = UserSerializer
-    
